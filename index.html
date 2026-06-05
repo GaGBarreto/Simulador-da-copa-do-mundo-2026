@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="pt-br">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>Simulador - Landing Page</title>
+		<!-- Link para o CSS principal -->
+		<link rel="stylesheet" href="css/styles.css" />
+	</head>
+	<body>
+		<!--
+			Estrutura da Landing Page do jogo simulador.
+			Comentários e seções estão organizados para facilitar alterações.
+		-->
+
+		<header class="site-header">
+			<div class="container header-inner">
+				<a class="logo" href="#">Simulador</a>
+				<nav class="main-nav" aria-label="Menu principal">
+					<a href="#features">Recursos</a>
+					<a href="#about">Sobre</a>
+					<a class="cta" id="startBtn" href="#">Jogar</a>
+				</nav>
+			</div>
+		</header>
+
+		<main>
+			<!-- Hero: título, descrição e CTA -->
+			<section class="hero">
+				<div class="container hero-inner">
+					<h1 class="hero-title">Experimente o Simulador</h1>
+					<p class="hero-sub">Treine habilidades em um cenário realista e divertido. Fácil de customizar.</p>
+					<div class="hero-actions">
+						<a class="btn btn-primary" id="heroPlay">Começar Agora</a>
+						<a class="btn btn-ghost" href="#features">Ver Recursos</a>
+					</div>
+				</div>
+			</section>
+
+			<!-- Features: blocos fáceis de editar -->
+			<section id="features" class="features container">
+				<h2>Recursos</h2>
+				<div class="features-grid">
+					<article class="feature">
+						<h3>Simulação Realista</h3>
+						<p>Parâmetros ajustáveis e feedback em tempo real.</p>
+					</article>
+					<article class="feature">
+						<h3>Progressão</h3>
+						<p>Sistema de níveis e desafios crescentes.</p>
+					</article>
+					<article class="feature">
+						<h3>Integração Fácil</h3>
+						<p>Conecte game.js com poucos ajustes — veja js/main.js.</p>
+					</article>
+				</div>
+			</section>
+
+			<!-- About: instruções rápidas -->
+			<section id="about" class="about container">
+				<h2>Sobre o Jogo</h2>
+				<p>Base leve para prototipagem de simuladores. Modifique estilos e scripts conforme necessário.</p>
+			</section>
+		</main>
+
+		<footer class="site-footer">
+			<div class="container footer-inner">
+				<small>© 2026 - Projeto Simulador — Todos os direitos reservados</small>
+			</div>
+		</footer>
+
+		<!-- Scripts: `main.js` controla interações da landing, `game.js` contém a lógica do jogo -->
+		<script src="js/main.js"></script>
+		<script>
+			// Se já existir um arquivo de jogo (game.js), carregue-o dinamicamente aqui
+			// Exemplo de integração (descomente para usar):
+			// const s = document.createElement('script');
+			// s.src = 'game.js';
+			// document.body.appendChild(s);
+		</script>
+	</body>
+</html>
