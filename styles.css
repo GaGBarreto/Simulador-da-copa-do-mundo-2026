@@ -1,0 +1,70 @@
+/*
+  styles.css
+  Base de estilos para a landing page do simulador.
+  - Variáveis CSS no :root facilitam a personalização de cores/espacamentos.
+  - Classes organizadas por bloco (header, hero, features, footer).
+  - Adapte fontes, tamanhos e cores conforme sua identidade visual.
+*/
+
+:root{
+  --bg: #0f1724;
+  --card: #0b1220;
+  --text: #e6eef8;
+  --muted: #9fb0c8;
+  --accent: #3b82f6;
+  --accent-2: #10b981;
+  --max-width: 1100px;
+  --gap: 1.25rem;
+}
+
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  font-family:Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+  background:linear-gradient(180deg,var(--bg),#071026 80%);
+  color:var(--text);
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+}
+
+.container{max-width:var(--max-width);margin:0 auto;padding:1rem}
+
+/* Header */
+.site-header{background:transparent;padding:1rem 0;position:sticky;top:0;z-index:10}
+.header-inner{display:flex;align-items:center;justify-content:space-between}
+.logo{font-weight:700;color:var(--text);text-decoration:none;font-size:1.1rem}
+.main-nav a{color:var(--muted);text-decoration:none;margin-left:1rem}
+.main-nav .cta{background:var(--accent);color:white;padding:.5rem .9rem;border-radius:8px;text-decoration:none}
+
+/* Hero */
+.hero{padding:4rem 0}
+.hero-inner{display:flex;flex-direction:column;gap:.75rem}
+.hero-title{font-size:2.25rem;margin:0}
+.hero-sub{color:var(--muted);max-width:60%}
+.hero-actions{margin-top:1rem;display:flex;gap:.75rem}
+.btn{display:inline-block;padding:.6rem .9rem;border-radius:8px;text-decoration:none;color:inherit}
+.btn-primary{background:var(--accent);color:#fff}
+.btn-ghost{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--text)}
+
+/* Features */
+.features{padding:2.5rem 0}
+.features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:var(--gap)}
+.feature{background:rgba(255,255,255,0.03);padding:1rem;border-radius:10px}
+.feature h3{margin-top:0}
+
+/* About */
+.about{padding:2.5rem 0;color:var(--muted)}
+
+/* Footer */
+.site-footer{padding:1.25rem 0;border-top:1px solid rgba(255,255,255,0.03);color:var(--muted)}
+
+/* Responsividade */
+@media (max-width:720px){
+  .hero-sub{max-width:100%}
+  .hero-title{font-size:1.6rem}
+  .header-inner{gap:.5rem}
+  .main-nav a{margin-left:.5rem}
+}
+
+/* Dica: modifique as variáveis no :root para alterar o visual global */
