@@ -1,82 +1,165 @@
-<!doctype html>
-<html lang="pt-br">
-	<head>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<title>Simulador - Landing Page</title>
-		<!-- Link para o CSS principal -->
-		<link rel="stylesheet" href="css/styles.css" />
-	</head>
-	<body>
-		<!--
-			Estrutura da Landing Page do jogo simulador.
-			Comentários e seções estão organizados para facilitar alterações.
-		-->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Simulador Copa do Mundo 2026</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
 
-		<header class="site-header">
-			<div class="container header-inner">
-				<a class="logo" href="#">Simulador</a>
-				<nav class="main-nav" aria-label="Menu principal">
-					<a href="#features">Recursos</a>
-					<a href="#about">Sobre</a>
-					<a class="cta" id="startBtn" href="#">Jogar</a>
-				</nav>
-			</div>
-		</header>
+  <!-- ═══════════════════════════════════════════════════
+       TELA 1 — INICIAL
+       Exibida antes de iniciar a simulação.
+       Botão chama: iniciarTorneio() e navega para #tela-grupos
+  ════════════════════════════════════════════════════ -->
+  <section id="tela-inicial" class="tela ativa">
+    <div class="inicial-conteudo">
+      <p class="inicial-label">Simulador · Copa do Mundo</p>
+      <h1 class="inicial-titulo">FIFA<br>WORLD CUP<br><span class="inicial-ano">2026</span></h1>
+      <p class="inicial-desc">
+        48 seleções. 12 grupos. Probabilidade real.<br>
+        Cada simulação é única.
+      </p>
+      <button class="btn-simular" id="btn-iniciar">Simular torneio</button>
+    </div>
+    <!-- Decoração de fundo: campo de futebol estilizado via CSS -->
+    <div class="campo-deco" aria-hidden="true"></div>
+  </section>
 
-		<main>
-			<!-- Hero: título, descrição e CTA -->
-			<section class="hero">
-				<div class="container hero-inner">
-					<h1 class="hero-title">Experimente o Simulador</h1>
-					<p class="hero-sub">Treine habilidades em um cenário realista e divertido. Fácil de customizar.</p>
-					<div class="hero-actions">
-						<a class="btn btn-primary" id="heroPlay">Começar Agora</a>
-						<a class="btn btn-ghost" href="#features">Ver Recursos</a>
-					</div>
-				</div>
-			</section>
 
-			<!-- Features: blocos fáceis de editar -->
-			<section id="features" class="features container">
-				<h2>Recursos</h2>
-				<div class="features-grid">
-					<article class="feature">
-						<h3>Simulação Realista</h3>
-						<p>Parâmetros ajustáveis e feedback em tempo real.</p>
-					</article>
-					<article class="feature">
-						<h3>Progressão</h3>
-						<p>Sistema de níveis e desafios crescentes.</p>
-					</article>
-					<article class="feature">
-						<h3>Integração Fácil</h3>
-						<p>Conecte game.js com poucos ajustes — veja js/main.js.</p>
-					</article>
-				</div>
-			</section>
+  <!-- ═══════════════════════════════════════════════════
+       TELA 2 — FASE DE GRUPOS
+       Exibe os 12 grupos com tabela de classificação.
+       Populada via JS: Torneio.getResultadoGrupos()
+  ════════════════════════════════════════════════════ -->
+  <section id="tela-grupos" class="tela">
+    <header class="topo">
+      <span class="topo-label">Fase de Grupos</span>
+      <button class="btn-avancar" id="btn-para-matamata">Ver mata-mata →</button>
+    </header>
 
-			<!-- About: instruções rápidas -->
-			<section id="about" class="about container">
-				<h2>Sobre o Jogo</h2>
-				<p>Base leve para prototipagem de simuladores. Modifique estilos e scripts conforme necessário.</p>
-			</section>
-		</main>
+    <!-- JS injeta os 12 cards aqui -->
+    <div class="grupos-grid" id="grupos-grid"></div>
 
-		<footer class="site-footer">
-			<div class="container footer-inner">
-				<small>© 2026 - Projeto Simulador — Todos os direitos reservados</small>
-			</div>
-		</footer>
+    <!-- Template de um card de grupo (clonado via JS) -->
+    <template id="tmpl-grupo">
+      <article class="grupo-card">
+        <h2 class="grupo-titulo">Grupo <span class="grupo-letra"></span></h2>
+        <table class="grupo-tabela">
+          <thead>
+            <tr>
+              <th class="col-time">Seleção</th>
+              <th title="Pontos">Pts</th>
+              <th title="Vitórias">V</th>
+              <th title="Empates">E</th>
+              <th title="Derrotas">D</th>
+              <th title="Saldo de Gols">SG</th>
+            </tr>
+          </thead>
+          <tbody class="grupo-corpo"></tbody>
+        </table>
+      </article>
+    </template>
 
-		<!-- Scripts: `main.js` controla interações da landing, `game.js` contém a lógica do jogo -->
-		<script src="js/main.js"></script>
-		<script>
-			// Se já existir um arquivo de jogo (game.js), carregue-o dinamicamente aqui
-			// Exemplo de integração (descomente para usar):
-			// const s = document.createElement('script');
-			// s.src = 'game.js';
-			// document.body.appendChild(s);
-		</script>
-	</body>
+    <!-- Template de uma linha da tabela -->
+    <template id="tmpl-linha-grupo">
+      <tr class="linha-time">
+        <td class="col-time">
+          <img class="bandeira-sm" src="" alt="" />
+          <span class="time-nome"></span>
+        </td>
+        <td class="destaque"></td> <!-- Pts -->
+        <td></td> <!-- V -->
+        <td></td> <!-- E -->
+        <td></td> <!-- D -->
+        <td></td> <!-- SG -->
+      </tr>
+    </template>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════════════
+       TELA 3 — MATA-MATA
+       Chaveamento completo: 32avos → Final.
+       Populada via JS com Torneio.getPartidasDaFase()
+  ════════════════════════════════════════════════════ -->
+  <section id="tela-matamata" class="tela">
+    <header class="topo">
+      <button class="btn-voltar" id="btn-para-grupos">← Grupos</button>
+      <span class="topo-label">Mata-mata</span>
+    </header>
+
+    <div class="bracket" id="bracket">
+
+      <!-- Cada .fase é uma coluna do chaveamento -->
+      <div class="fase" id="fase-32avos">
+        <h3 class="fase-titulo">32avos</h3>
+        <div class="fase-partidas" data-fase="32avos de Final"></div>
+      </div>
+
+      <div class="fase" id="fase-16avos">
+        <h3 class="fase-titulo">16avos</h3>
+        <div class="fase-partidas" data-fase="16avos de Final"></div>
+      </div>
+
+      <div class="fase" id="fase-quartas">
+        <h3 class="fase-titulo">Quartas</h3>
+        <div class="fase-partidas" data-fase="Quartas de Final"></div>
+      </div>
+
+      <div class="fase" id="fase-semi">
+        <h3 class="fase-titulo">Semi</h3>
+        <div class="fase-partidas" data-fase="Semifinais"></div>
+      </div>
+
+      <div class="fase" id="fase-final">
+        <h3 class="fase-titulo">Final</h3>
+        <div class="fase-partidas" data-fase="Final"></div>
+      </div>
+
+    </div>
+
+    <!-- Template de uma partida no chaveamento -->
+    <template id="tmpl-partida">
+      <div class="partida">
+        <div class="partida-time time-a">
+          <img class="bandeira-sm" src="" alt="" />
+          <span class="partida-nome"></span>
+          <span class="partida-gols"></span>
+        </div>
+        <div class="partida-time time-b">
+          <img class="bandeira-sm" src="" alt="" />
+          <span class="partida-nome"></span>
+          <span class="partida-gols"></span>
+        </div>
+      </div>
+    </template>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════════════
+       TELA 4 — CAMPEÃO
+       Exibida ao fim do torneio.
+       Populada via JS com Torneio.getCampeao()
+  ════════════════════════════════════════════════════ -->
+  <section id="tela-campeao" class="tela">
+    <div class="campeao-conteudo">
+      <p class="campeao-label">Campeão da Copa do Mundo 2026</p>
+      <img class="campeao-bandeira" id="campeao-bandeira" src="" alt="" />
+      <h2 class="campeao-nome" id="campeao-nome"></h2>
+      <p class="campeao-coef" id="campeao-coef"></p>
+      <button class="btn-simular btn-novo" id="btn-novo">Simular novamente</button>
+    </div>
+  </section>
+
+
+  <!-- Scripts — ordem importa: dados → lógica → ui -->
+  <script src="selecoes.js"></script>
+  <script src="game.js"></script>
+  <script src="ui.js"></script><!-- TODO: criar ui.js para conectar JS ao HTML -->
+</body>
 </html>

@@ -1,70 +1,510 @@
+/* ============================================================
+   style.css — Simulador Copa do Mundo 2026
+   ============================================================
+   Paleta:
+     --verde-campo   #1a5c38   (fundo principal)
+     --verde-claro   #2d8653   (cards, hover)
+     --ouro          #c9930a   (acento, destaque)
+     --ouro-claro    #f0b429   (hover do ouro)
+     --areia         #f5f0e8   (texto principal)
+     --cinza-linha   #ffffff18 (bordas internas)
+     --preto-fundo   #0e1f14   (fundo escuro)
+
+   Tipografia:
+     Display → Bebas Neue (títulos, placares, anos)
+     Corpo   → Inter (tabelas, labels, botões)
+   ============================================================ */
+
+
+/* ── Reset e base ────────────────────────────────────────── */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: #0e1f14;
+  color: #f5f0e8;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+button {
+  font-family: 'Inter', sans-serif;
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+
+/* ── Sistema de telas ────────────────────────────────────── */
 /*
-  styles.css
-  Base de estilos para a landing page do simulador.
-  - Variáveis CSS no :root facilitam a personalização de cores/espacamentos.
-  - Classes organizadas por bloco (header, hero, features, footer).
-  - Adapte fontes, tamanhos e cores conforme sua identidade visual.
+   Cada <section class="tela"> está oculta por padrão.
+   ui.js adiciona .ativa à tela correta e remove das demais.
 */
 
-:root{
-  --bg: #0f1724;
-  --card: #0b1220;
-  --text: #e6eef8;
-  --muted: #9fb0c8;
-  --accent: #3b82f6;
-  --accent-2: #10b981;
-  --max-width: 1100px;
-  --gap: 1.25rem;
+.tela {
+  display: none;
+  min-height: 100vh;
 }
 
-*{box-sizing:border-box}
-html,body{height:100%}
-body{
-  margin:0;
-  font-family:Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
-  background:linear-gradient(180deg,var(--bg),#071026 80%);
-  color:var(--text);
-  -webkit-font-smoothing:antialiased;
-  -moz-osx-font-smoothing:grayscale;
+.tela.ativa {
+  display: block;
 }
 
-.container{max-width:var(--max-width);margin:0 auto;padding:1rem}
 
-/* Header */
-.site-header{background:transparent;padding:1rem 0;position:sticky;top:0;z-index:10}
-.header-inner{display:flex;align-items:center;justify-content:space-between}
-.logo{font-weight:700;color:var(--text);text-decoration:none;font-size:1.1rem}
-.main-nav a{color:var(--muted);text-decoration:none;margin-left:1rem}
-.main-nav .cta{background:var(--accent);color:white;padding:.5rem .9rem;border-radius:8px;text-decoration:none}
+/* ── Topo de navegação (telas 2 e 3) ─────────────────────── */
 
-/* Hero */
-.hero{padding:4rem 0}
-.hero-inner{display:flex;flex-direction:column;gap:.75rem}
-.hero-title{font-size:2.25rem;margin:0}
-.hero-sub{color:var(--muted);max-width:60%}
-.hero-actions{margin-top:1rem;display:flex;gap:.75rem}
-.btn{display:inline-block;padding:.6rem .9rem;border-radius:8px;text-decoration:none;color:inherit}
-.btn-primary{background:var(--accent);color:#fff}
-.btn-ghost{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--text)}
-
-/* Features */
-.features{padding:2.5rem 0}
-.features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:var(--gap)}
-.feature{background:rgba(255,255,255,0.03);padding:1rem;border-radius:10px}
-.feature h3{margin-top:0}
-
-/* About */
-.about{padding:2.5rem 0;color:var(--muted)}
-
-/* Footer */
-.site-footer{padding:1.25rem 0;border-top:1px solid rgba(255,255,255,0.03);color:var(--muted)}
-
-/* Responsividade */
-@media (max-width:720px){
-  .hero-sub{max-width:100%}
-  .hero-title{font-size:1.6rem}
-  .header-inner{gap:.5rem}
-  .main-nav a{margin-left:.5rem}
+.topo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: .75rem 1.5rem;
+  background: #0e1f14;
+  border-bottom: 1px solid #ffffff18;
+  position: sticky;
+  top: 0;
+  z-index: 10;
 }
 
-/* Dica: modifique as variáveis no :root para alterar o visual global */
+.topo-label {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.3rem;
+  letter-spacing: .1em;
+  color: #f0b429;
+}
+
+.btn-voltar,
+.btn-avancar {
+  font-size: .82rem;
+  font-weight: 600;
+  color: #f5f0e8;
+  padding: .4rem .9rem;
+  border-radius: 4px;
+  border: 1px solid #ffffff30;
+  background: #ffffff0d;
+  transition: background .15s, border-color .15s;
+}
+
+.btn-voltar:hover,
+.btn-avancar:hover {
+  background: #ffffff1a;
+  border-color: #f0b429;
+  color: #f0b429;
+}
+
+
+/* ══════════════════════════════════════════════════════════
+   TELA 1 — INICIAL
+══════════════════════════════════════════════════════════ */
+
+#tela-inicial {
+  position: relative;
+  display: none; /* sobrescrito por .ativa */
+  align-items: center;
+  justify-content: center;
+  background: #0e1f14;
+  overflow: hidden;
+}
+
+#tela-inicial.ativa {
+  display: flex;
+}
+
+.inicial-conteudo {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  padding: 2rem 1.5rem;
+  max-width: 480px;
+}
+
+.inicial-label {
+  font-size: .75rem;
+  font-weight: 600;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: #f0b429;
+  margin-bottom: 1.25rem;
+}
+
+.inicial-titulo {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(4rem, 14vw, 8rem);
+  line-height: .92;
+  letter-spacing: .03em;
+  color: #f5f0e8;
+  margin-bottom: .75rem;
+}
+
+.inicial-ano {
+  color: #f0b429;
+}
+
+.inicial-desc {
+  font-size: .9rem;
+  color: #c8c0b0;
+  line-height: 1.6;
+  margin-bottom: 2.5rem;
+}
+
+/* Decoração de campo — linhas do gramado via gradiente */
+.campo-deco {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background:
+    /* círculo central */
+    radial-gradient(circle at 50% 50%, transparent 18%, #ffffff08 18.5%, transparent 19%),
+    /* linha central */
+    linear-gradient(to right, transparent 49.8%, #ffffff08 49.8%, #ffffff08 50.2%, transparent 50.2%),
+    /* área esquerda */
+    linear-gradient(to bottom, transparent 30%, #ffffff06 30%, #ffffff06 70%, transparent 70%),
+    /* fundo */
+    radial-gradient(ellipse at 50% 110%, #1a5c3840 0%, transparent 60%);
+  pointer-events: none;
+}
+
+
+/* ── Botão principal ──────────────────────────────────────── */
+
+.btn-simular {
+  display: inline-block;
+  background: #c9930a;
+  color: #0e1f14;
+  font-weight: 700;
+  font-size: .95rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  padding: .9rem 2.5rem;
+  border-radius: 4px;
+  border: 2px solid #c9930a;
+  transition: background .15s, transform .1s;
+}
+
+.btn-simular:hover {
+  background: #f0b429;
+  border-color: #f0b429;
+  transform: translateY(-1px);
+}
+
+.btn-simular:active {
+  transform: translateY(0);
+}
+
+.btn-novo {
+  margin-top: 2rem;
+}
+
+
+/* ══════════════════════════════════════════════════════════
+   TELA 2 — FASE DE GRUPOS
+══════════════════════════════════════════════════════════ */
+
+#tela-grupos {
+  background: #0e1f14;
+}
+
+.grupos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1rem;
+  padding: 1.25rem 1.5rem 2rem;
+}
+
+/* Card de grupo */
+.grupo-card {
+  background: #1a5c38;
+  border: 1px solid #ffffff18;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.grupo-titulo {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.05rem;
+  letter-spacing: .12em;
+  color: #f5f0e8;
+  background: #0e1f14;
+  padding: .5rem .85rem;
+  border-bottom: 1px solid #ffffff18;
+}
+
+/* Tabela do grupo */
+.grupo-tabela {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: .78rem;
+}
+
+.grupo-tabela thead tr {
+  border-bottom: 1px solid #ffffff18;
+}
+
+.grupo-tabela th {
+  padding: .35rem .5rem;
+  font-weight: 600;
+  color: #c8c0b0;
+  text-align: center;
+}
+
+.grupo-tabela th.col-time {
+  text-align: left;
+  padding-left: .75rem;
+}
+
+.grupo-tabela td {
+  padding: .45rem .5rem;
+  text-align: center;
+  color: #f5f0e8;
+  border-bottom: 1px solid #ffffff10;
+}
+
+.grupo-tabela td.col-time {
+  text-align: left;
+  padding-left: .75rem;
+}
+
+.grupo-tabela tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* 1º e 2º classificados — destaque visual */
+.grupo-tabela tbody tr:nth-child(1) td,
+.grupo-tabela tbody tr:nth-child(2) td {
+  color: #f5f0e8;
+}
+
+.grupo-tabela tbody tr:nth-child(1) .destaque,
+.grupo-tabela tbody tr:nth-child(2) .destaque {
+  font-weight: 700;
+  color: #f0b429;
+}
+
+/* 3º e 4º — mais apagados */
+.grupo-tabela tbody tr:nth-child(3) td,
+.grupo-tabela tbody tr:nth-child(4) td {
+  color: #a09888;
+}
+
+/* Linha do time: bandeira + nome */
+.col-time {
+  display: flex;
+  align-items: center;
+  gap: .45rem;
+}
+
+.bandeira-sm {
+  width: 22px;
+  height: 15px;
+  object-fit: cover;
+  border-radius: 2px;
+  border: 1px solid #ffffff20;
+  flex-shrink: 0;
+}
+
+.time-nome {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 120px;
+}
+
+
+/* ══════════════════════════════════════════════════════════
+   TELA 3 — MATA-MATA (chaveamento)
+══════════════════════════════════════════════════════════ */
+
+#tela-matamata {
+  background: #0e1f14;
+}
+
+/* Scroll horizontal para o chaveamento completo */
+.bracket {
+  display: flex;
+  gap: 1rem;
+  padding: 1.25rem 1.5rem 2rem;
+  overflow-x: auto;
+  align-items: flex-start;
+}
+
+/* Coluna de uma fase */
+.fase {
+  flex-shrink: 0;
+  min-width: 160px;
+}
+
+.fase-titulo {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: .95rem;
+  letter-spacing: .12em;
+  color: #f0b429;
+  text-align: center;
+  margin-bottom: .75rem;
+  padding-bottom: .4rem;
+  border-bottom: 1px solid #ffffff18;
+}
+
+.fase-partidas {
+  display: flex;
+  flex-direction: column;
+  gap: .6rem;
+}
+
+/* Card de uma partida */
+.partida {
+  background: #1a5c38;
+  border: 1px solid #ffffff18;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.partida-time {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  padding: .45rem .6rem;
+  font-size: .78rem;
+  color: #f5f0e8;
+  border-bottom: 1px solid #ffffff18;
+}
+
+.partida-time:last-child {
+  border-bottom: none;
+}
+
+.partida-nome {
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.partida-gols {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1rem;
+  color: #f0b429;
+  min-width: 18px;
+  text-align: right;
+}
+
+/* Time vencedor — destaque */
+.partida-time.vencedor {
+  background: #2d865320;
+}
+
+.partida-time.vencedor .partida-nome {
+  font-weight: 600;
+  color: #f5f0e8;
+}
+
+.partida-time.perdedor {
+  opacity: .5;
+}
+
+
+/* ══════════════════════════════════════════════════════════
+   TELA 4 — CAMPEÃO
+══════════════════════════════════════════════════════════ */
+
+#tela-campeao {
+  background: radial-gradient(ellipse at 50% 60%, #1a5c38 0%, #0e1f14 65%);
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
+
+#tela-campeao.ativa {
+  display: flex;
+}
+
+.campeao-conteudo {
+  text-align: center;
+  padding: 2rem 1.5rem;
+  animation: surgir .5s ease both;
+}
+
+.campeao-label {
+  font-size: .75rem;
+  font-weight: 600;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: #f0b429;
+  margin-bottom: 1.5rem;
+}
+
+.campeao-bandeira {
+  width: 120px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 6px;
+  border: 2px solid #f0b429;
+  margin: 0 auto 1.25rem;
+  box-shadow: 0 0 40px #f0b42940;
+}
+
+.campeao-nome {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(2.5rem, 8vw, 5rem);
+  letter-spacing: .05em;
+  color: #f5f0e8;
+  line-height: 1;
+  margin-bottom: .5rem;
+}
+
+.campeao-coef {
+  font-size: .8rem;
+  color: #a09888;
+  margin-bottom: 2rem;
+}
+
+
+/* ── Animações ───────────────────────────────────────────── */
+
+@keyframes surgir {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+
+/* ── Utilitários ─────────────────────────────────────────── */
+
+/* Scrollbar do bracket */
+.bracket::-webkit-scrollbar { height: 6px; }
+.bracket::-webkit-scrollbar-track { background: #0e1f14; }
+.bracket::-webkit-scrollbar-thumb { background: #2d8653; border-radius: 3px; }
+
+/* Acessibilidade: reduz movimento se preferido */
+@media (prefers-reduced-motion: reduce) {
+  .campeao-conteudo { animation: none; }
+  .btn-simular      { transition: none; }
+}
+
+/* Responsivo — tablets e mobile */
+@media (max-width: 640px) {
+  .grupos-grid {
+    grid-template-columns: 1fr;
+    padding: 1rem;
+  }
+
+  .bracket {
+    padding: 1rem;
+  }
+
+  .topo {
+    padding: .6rem 1rem;
+  }
+}
